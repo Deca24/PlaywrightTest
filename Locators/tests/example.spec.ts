@@ -11,7 +11,10 @@ test('Click on Button', async ({ page }) => {
   await page.goto('https://testertestarudo.com/sandbox-para-pruebas-automatizadas/');
 
   await page.click('text="Click para alerta"');
-  await expect(page.getByText('¡Has presionado el botón de alerta!')).toBeVisible();
+  await page.on('dialog', dialog => {
+    expect(dialog.message()).toBe('¡Hola, soy un alert!');
+    dialog.accept();
+  });
 });
 
 test('Complete Form', async ({ page }) => {
